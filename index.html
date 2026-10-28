@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Weather Advisory System - Professional weather dashboard with forecasts, charts, and weather-based recommendations for the Philippines" />
+    <meta name="theme-color" content="#08101a" />
+    <title>Weather Advisory System</title>
+    <script>
+      // Apply the persisted theme before React mounts to prevent a flash of the
+      // wrong theme. Keep this in sync with DEFAULT_SETTINGS.theme (dark).
+      try {
+        var storedSettings = localStorage.getItem('weather-advisory-settings')
+        var theme = storedSettings ? JSON.parse(storedSettings).theme : 'dark'
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        var isDark = theme === 'dark' || (theme === 'system' && prefersDark)
+        document.documentElement.classList.toggle('dark', isDark)
+        var themeColor = document.querySelector('meta[name="theme-color"]')
+        if (themeColor) themeColor.setAttribute('content', isDark ? '#08101a' : '#f7f9fc')
+      } catch (error) {
+        document.documentElement.classList.add('dark')
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
