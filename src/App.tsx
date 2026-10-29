@@ -162,6 +162,13 @@ function App() {
     }
   }, [showSearch])
 
+  // Open the location search dialog (used by the header and the mobile
+  // current-location control).
+  const openLocationSearch = useCallback(() => {
+    clearSearch()
+    setShowSearch(true)
+  }, [clearSearch])
+
   // Handle location selection from search
   const handleLocationSelect = useCallback((location: GeocodingResult) => {
     selectGeocoding(location)
@@ -272,17 +279,17 @@ function App() {
               <div className="icon-container icon-container-md icon-container-brand shrink-0">
                 <Icon icon="CloudSun" size={22} aria-hidden="true" />
               </div>
-              <div className="min-w-0 hidden sm:block">
-                <h1 className="truncate text-xl font-bold tracking-tight text-text-primary sm:text-2xl">
+              <div className="min-w-0 flex-1 sm:flex-none">
+                <h1 className="truncate text-sm font-bold tracking-tight text-text-primary max-[359px]:sr-only sm:text-2xl">
                   Weather Advisory
                 </h1>
-                <p className="truncate text-xs text-text-tertiary">Philippine Weather Dashboard</p>
+                <p className="hidden truncate text-xs text-text-tertiary sm:block">Philippine Weather Dashboard</p>
               </div>
             </div>
 
             {/* Actions — search bar + refresh + theme */}
             <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-              {/* Location search bar */}
+              {/* Location search bar (desktop) */}
               <div className="relative hidden sm:block" style={{ width: '200px' }}>
                 <label htmlFor="location-search" className="sr-only">Search location</label>
                 <div className="relative">
@@ -291,15 +298,11 @@ function App() {
                     type="search"
                     readOnly
                     value={locationName}
-                    onClick={() => {
-                      clearSearch()
-                      setShowSearch(true)
-                    }}
+                    onClick={openLocationSearch}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
-                        clearSearch()
-                        setShowSearch(true)
+                        openLocationSearch()
                       }
                     }}
                     className="w-full h-9 pl-9 pr-9 text-sm font-medium text-text-primary bg-surface-1 border border-border-subtle rounded-xl placeholder-text-quaternary transition-all duration-fast hover:border-border-default hover:bg-surface-2 hover:shadow-md focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 focus:ring-offset-2 focus:ring-offset-surface-0 dark:focus:ring-offset-surface-0"
@@ -322,6 +325,17 @@ function App() {
                   />
                 </div>
               </div>
+
+              <button
+                type="button"
+                onClick={openLocationSearch}
+                className="btn btn-secondary btn-icon sm:hidden"
+                aria-label="Search location"
+                aria-haspopup="dialog"
+                aria-expanded={showSearch}
+              >
+                <Icon icon="Search" size={18} aria-hidden="true" />
+              </button>
 
               <button
                 type="button"
@@ -351,20 +365,20 @@ function App() {
         {/* Search Dialog - full screen on mobile, centered on desktop */}
         {showSearch && (
           <div
-            className="fixed inset-0 z-modal flex items-start justify-center bg-overlay p-2 pt-[10vh] sm:p-4 sm:pt-20 lg:items-center lg:pt-16 animate-fade-in"
+            className="fixed inset-0 z-modal flex items-start justify-center overflow-y-auto overscroll-contain bg-overlay p-2 py-3 animate-fade-in sm:p-4 sm:py-8 lg:items-center lg:py-16"
             onClick={() => setShowSearch(false)}
             role="dialog"
             aria-modal="true"
             aria-label="Change location"
           >
             <div
-              className="animate-scale-in w-full max-w-lg overflow-hidden rounded-3xl border border-border-default bg-surface-1 shadow-2xl card-glass lg:max-w-md"
+              className="animate-scale-in flex max-h-[calc(100dvh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-3xl border border-border-default bg-surface-1 shadow-2xl card-glass sm:max-h-[calc(100dvh-4rem)] lg:max-w-md"
               onClick={event => event.stopPropagation()}
               onKeyDown={event => {
                 if (event.key === 'Escape') setShowSearch(false)
               }}
             >
-              <div className="flex items-center justify-between border-b border-border-subtle px-4 py-3 sm:px-5">
+              <div className="flex shrink-0 items-center justify-between border-b border-border-subtle px-4 py-3 sm:px-5">
                 <h2 className="text-lg font-semibold text-text-primary sm:text-xl">Change Location</h2>
                 <button
                   type="button"
@@ -375,7 +389,7 @@ function App() {
                   <Icon icon="X" size={18} aria-hidden="true" />
                 </button>
               </div>
-              <div className="p-4 sm:p-5 max-h-[75vh] overflow-auto">
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 sm:p-5">
                 <LocationSearch
                   query={query}
                   suggestions={suggestions}
@@ -427,6 +441,7 @@ function App() {
                 lastUpdated={lastUpdated}
                 use24Hour={settings.use24Hour}
                 timezone={initialLocation.timezone}
+                onChangeLocation={openLocationSearch}
               />
 
               {/* Tab Navigation - responsive */}
@@ -450,6 +465,8 @@ function App() {
                         role="tab"
                         aria-selected={isActive}
                         aria-controls={`panel-${tab.id}`}
+                        aria-label={tab.label}
+                        title={tab.label}
                         data-state={isActive ? 'active' : 'inactive'}
                         tabIndex={isActive ? 0 : -1}
                         className="tabs-trigger"
@@ -533,6 +550,7 @@ function App() {
                     onSelect={handleSavedLocationSelect}
                     onRemove={handleLocationRemove}
                     onClearAll={handleClearAllLocations}
+                    onFindLocation={openLocationSearch}
                   />
                 )}
 

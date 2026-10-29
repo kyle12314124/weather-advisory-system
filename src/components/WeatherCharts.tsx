@@ -179,7 +179,8 @@ export const WeatherCharts: FC<WeatherChartsProps> = ({
                     tick={axisTick}
                     tickLine={false}
                     axisLine={false}
-                    interval={hourlyTempData.length > 12 ? 2 : 1}
+                    interval="preserveStartEnd"
+                    minTickGap={24}
                     tickMargin={8}
                   />
                   <YAxis
@@ -248,7 +249,8 @@ export const WeatherCharts: FC<WeatherChartsProps> = ({
                     tick={axisTick}
                     tickLine={false}
                     axisLine={false}
-                    interval={hourlyPrecipData.length > 12 ? 2 : 1}
+                    interval="preserveStartEnd"
+                    minTickGap={24}
                     tickMargin={8}
                   />
                   <YAxis
@@ -301,6 +303,8 @@ export const WeatherCharts: FC<WeatherChartsProps> = ({
                     tick={axisTick}
                     tickLine={false}
                     axisLine={false}
+                    interval="preserveStartEnd"
+                    minTickGap={24}
                     tickMargin={8}
                   />
                   <YAxis
@@ -392,6 +396,8 @@ export const WeatherCharts: FC<WeatherChartsProps> = ({
                     tick={axisTick}
                     tickLine={false}
                     axisLine={false}
+                    interval="preserveStartEnd"
+                    minTickGap={24}
                     tickMargin={8}
                   />
                   <YAxis

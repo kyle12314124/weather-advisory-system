@@ -59,12 +59,12 @@ export const WeatherSkeleton: FC = () => (
     {/* Hero skeleton */}
     <Card variant="elevated" padding="lg">
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-5">
-          <Skeleton className="icon-container-xl" />
-          <div className="space-y-3">
-            <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-4 w-32" />
-            <Skeleton className="h-4 w-40" />
+        <div className="flex min-w-0 items-center gap-4 sm:gap-5">
+          <Skeleton className="icon-container-xl shrink-0" />
+          <div className="min-w-0 flex-1 space-y-3">
+            <Skeleton className="h-8 w-full max-w-[12rem]" />
+            <Skeleton className="h-4 w-32 max-w-full" />
+            <Skeleton className="h-4 w-40 max-w-full" />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:max-w-md md:flex-1">
@@ -207,13 +207,13 @@ export const OfflineBanner: FC<OfflineBannerProps> = ({ onRetry, lastUpdated, us
       aria-live="polite"
       aria-label="Offline notification"
     >
-      <div className="mx-auto max-w-6xl flex items-center justify-between gap-3 sm:px-6">
-        <div className="flex items-center gap-2 text-sm text-semantic-warning">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 sm:px-6">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-semantic-warning">
           <Icon icon="WifiOff" size={16} className="shrink-0" aria-hidden="true" />
           <span>You're offline — showing cached data</span>
           {lastUpdated && (
             <>
-              <span className="mx-1" aria-hidden="true">·</span>
+              <span className="hidden sm:inline" aria-hidden="true">·</span>
               <span>Last updated {lastUpdated.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', hour12: !use24Hour })}</span>
             </>
           )}

@@ -18,6 +18,7 @@ interface FavoritesPanelProps {
   onSelect: (location: SavedLocation) => void
   onRemove: (id: string) => void
   onClearAll: () => void
+  onFindLocation?: () => void
   isLoading?: boolean
 }
 
@@ -27,6 +28,7 @@ export const FavoritesPanel: FC<FavoritesPanelProps> = ({
   onSelect,
   onRemove,
   onClearAll,
+  onFindLocation,
   isLoading = false,
 }) => {
   if (isLoading) return null
@@ -37,7 +39,7 @@ export const FavoritesPanel: FC<FavoritesPanelProps> = ({
         icon="MapPin"
         title="No saved locations yet"
         message="Search for a location and select it — it will be saved here so you can switch back to it quickly."
-        action={{ label: 'Find a location', onClick: () => {} }}
+        action={onFindLocation ? { label: 'Find a location', onClick: onFindLocation } : undefined}
       />
     )
   }
@@ -56,10 +58,11 @@ export const FavoritesPanel: FC<FavoritesPanelProps> = ({
             variant="ghost"
             size="sm"
             onClick={onClearAll}
+            aria-label="Clear all saved locations"
             className="text-semantic-danger hover:bg-semantic-danger-soft hover:text-semantic-danger-strong"
           >
             <Icon icon="Trash2" size={14} aria-hidden="true" />
-            <span className="hidden sm:inline">Clear All</span>
+            <span className="ml-1.5">Clear All</span>
           </Button>
         )}
       </CardHeader>
@@ -93,13 +96,13 @@ export const FavoritesPanel: FC<FavoritesPanelProps> = ({
 
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="truncate font-semibold text-text-primary">
+                      <span className="break-words font-semibold text-text-primary">
                         {location.name}
                       </span>
                       {isCurrent && <Badge variant="primary" size="sm">Current</Badge>}
                       {location.isDefault && <Badge variant="outline" size="sm">Default</Badge>}
                     </div>
-                    <p className="mt-0.5 truncate text-sm text-text-tertiary">
+                    <p className="mt-0.5 break-words text-sm text-text-tertiary">
                       {[location.admin1, location.country].filter(Boolean).join(', ') || '—'}
                     </p>
                     <p className="mt-1 text-xs text-text-quaternary">
@@ -113,7 +116,7 @@ export const FavoritesPanel: FC<FavoritesPanelProps> = ({
                   size="icon-sm"
                   onClick={() => onRemove(location.id)}
                   aria-label={`Remove ${location.name} from favorites`}
-                  className="w-full shrink-0 sm:w-auto text-text-tertiary hover:text-semantic-danger hover:bg-semantic-danger-soft"
+                  className="w-full shrink-0 text-text-tertiary hover:text-semantic-danger hover:bg-semantic-danger-soft max-sm:min-h-11 sm:w-auto"
                 >
                   <Icon icon="Trash2" size={16} aria-hidden="true" />
                   <span className="hidden sm:inline ml-1.5">Remove</span>

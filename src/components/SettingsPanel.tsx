@@ -104,8 +104,9 @@ export const SettingsPanel: FC<SettingsPanelProps> = ({
           onClick={onReset}
           leftIcon={<Icon icon="RotateCcw" size={14} aria-hidden="true" />}
           aria-label="Reset to defaults"
+          className="max-sm:min-h-11"
         >
-          <span className="hidden sm:inline">Reset to defaults</span>
+          <span>Reset to defaults</span>
         </Button>
       </CardHeader>
 
@@ -168,8 +169,8 @@ export const SettingsPanel: FC<SettingsPanelProps> = ({
             <div className="card-filled p-4 rounded-xl">
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <div className="min-w-0 w-full sm:w-auto">
-                  <p className="text-sm font-medium text-text-primary truncate">Theme</p>
-                  <p className="text-sm text-text-tertiary sm:truncate">Choose light, dark, or follow your system</p>
+                  <p className="text-sm font-medium text-text-primary break-words">Theme</p>
+                  <p className="text-sm text-text-tertiary">Choose light, dark, or follow your system</p>
                 </div>
                 <div
                   className="inline-flex w-full rounded-lg border border-border-default bg-surface-2 p-1 sm:w-auto"
@@ -184,13 +185,13 @@ export const SettingsPanel: FC<SettingsPanelProps> = ({
                       aria-checked={settings.theme === theme.value}
                       aria-label={`${theme.label} theme`}
                       onClick={() => handleUnitChange('theme', theme.value)}
-                      className={`inline-flex h-9 items-center gap-2 rounded-md px-3 text-sm font-medium transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2 ${
+                      className={`inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-xs font-medium transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2 sm:h-9 sm:flex-none sm:gap-2 sm:px-3 sm:text-sm ${
                         settings.theme === theme.value
                           ? 'bg-surface-1 text-text-primary shadow-sm ring-1 ring-border-default'
                           : 'text-text-tertiary hover:bg-surface-3 hover:text-text-primary'
                       }`}>
                       <Icon icon={theme.icon} size={14} aria-hidden="true" />
-                      <span className="hidden sm:inline">{theme.label}</span>
+                      <span>{theme.label}</span>
                     </button>
                   ))}
                 </div>
@@ -201,8 +202,8 @@ export const SettingsPanel: FC<SettingsPanelProps> = ({
             <div className="card-filled p-4 rounded-xl">
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <div className="min-w-0 w-full sm:w-auto">
-                  <p className="text-sm font-medium text-text-primary truncate">24-Hour Time</p>
-                  <p className="text-sm text-text-tertiary sm:truncate">Use 24-hour format for time display</p>
+                  <p className="text-sm font-medium text-text-primary break-words">24-Hour Time</p>
+                  <p className="text-sm text-text-tertiary">Use 24-hour format for time display</p>
                 </div>
                 <Toggle
                   label="24-hour time format"
@@ -224,8 +225,8 @@ export const SettingsPanel: FC<SettingsPanelProps> = ({
             <div className="card-filled p-4 rounded-xl">
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <div className="min-w-0 w-full sm:w-auto">
-                  <p className="text-sm font-medium text-text-primary truncate">UV Index</p>
-                  <p className="text-sm text-text-tertiary sm:truncate">Display UV index in current weather</p>
+                  <p className="text-sm font-medium text-text-primary break-words">UV Index</p>
+                  <p className="text-sm text-text-tertiary">Display UV index in current weather</p>
                 </div>
                 <Toggle
                   label="Show UV index"
@@ -239,8 +240,8 @@ export const SettingsPanel: FC<SettingsPanelProps> = ({
             <div className="card-filled p-4 rounded-xl">
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <div className="min-w-0 w-full sm:w-auto">
-                  <p className="text-sm font-medium text-text-primary truncate">Auto Refresh</p>
-                  <p className="text-sm text-text-tertiary sm:truncate">Automatically update weather data in the background</p>
+                  <p className="text-sm font-medium text-text-primary break-words">Auto Refresh</p>
+                  <p className="text-sm text-text-tertiary">Automatically update weather data in the background</p>
                 </div>
                 <Toggle
                   label="Auto refresh"
@@ -283,8 +284,8 @@ export const SettingsPanel: FC<SettingsPanelProps> = ({
             <div className="card-filled p-4 rounded-xl">
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <div className="min-w-0 w-full sm:w-auto">
-                  <p className="text-sm font-medium text-text-primary truncate">Use Device Location</p>
-                  <p className="text-sm text-text-tertiary sm:truncate">Detect your location once using the browser</p>
+                  <p className="text-sm font-medium text-text-primary break-words">Use Device Location</p>
+                  <p className="text-sm text-text-tertiary">Detect your location once using the browser</p>
                 </div>
                 <Toggle
                   label="Use device location"

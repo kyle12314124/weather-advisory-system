@@ -117,29 +117,29 @@ const DailyItem: FC<DailyItemProps> = ({
       role="listitem"
       aria-label={`${dayLabel}: ${codeInfo.description}, low ${tempMin}, high ${tempMax}`}
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5 p-4 sm:p-5">
+      <div className="flex items-center gap-2.5 p-4 sm:gap-5 sm:p-5">
         {/* Day and date */}
-        <div className="w-20 shrink-0 sm:w-24 lg:w-28 flex flex-col items-start sm:items-center text-center sm:text-left">
+        <div className="w-[4.5rem] shrink-0 sm:w-24 lg:w-28">
           <p className={`text-sm font-semibold ${isToday ? 'text-brand-primary' : 'text-text-primary'}`}>{dayLabel}</p>
           <p className="text-xs text-text-tertiary">{dateStr}</p>
         </div>
 
         {/* Condition icon */}
-        <div className={`flex shrink-0 items-center justify-center rounded-xl ${visual.tileClass}`} style={{ width: '56px', height: '56px' }}>
+        <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${visual.tileClass} sm:h-14 sm:w-14`}>
           <Icon
             icon={visual.icon}
-            size={28}
+            size={26}
             className={visual.iconClass}
             aria-hidden="true"
           />
         </div>
 
         {/* Description */}
-        <p className="hidden w-36 shrink-0 truncate text-sm text-text-secondary lg:block lg:w-40">{codeInfo.description}</p>
+        <p className="hidden w-36 shrink-0 break-words text-sm text-text-secondary lg:block lg:w-40">{codeInfo.description}</p>
 
         {/* Temperature range */}
-        <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
-          <span className="w-14 shrink-0 text-right text-sm tabular-nums text-text-tertiary lg:w-16">{tempMin}</span>
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-2 sm:gap-4">
+          <span className="w-12 shrink-0 text-right text-sm tabular-nums text-text-tertiary sm:w-14 lg:w-16">{tempMin}</span>
           <div
             className="relative hidden h-3 flex-1 rounded-full bg-surface-3 sm:block"
             role="img"
@@ -154,11 +154,11 @@ const DailyItem: FC<DailyItemProps> = ({
               }}
             />
           </div>
-          <span className="w-14 shrink-0 text-sm font-bold tabular-nums text-text-primary lg:w-16">{tempMax}</span>
+          <span className="w-12 shrink-0 text-sm font-bold tabular-nums text-text-primary sm:w-14 lg:w-16">{tempMax}</span>
         </div>
 
         {/* Precipitation probability */}
-        <div className="hidden w-20 shrink-0 items-center justify-end gap-1.5 text-xs tabular-nums md:flex">
+        <div className="hidden w-20 shrink-0 items-center justify-end gap-1.5 text-xs tabular-nums lg:flex">
           <Icon
             icon="Droplets"
             size={13}
@@ -195,24 +195,35 @@ const DailyItem: FC<DailyItemProps> = ({
         )}
       </div>
 
-      {/* Mobile detail line - shows when horizontal space is limited */}
-      <div className="px-4 pb-4 pt-2 border-t border-border-subtle sm:hidden">
-        <p className="text-xs text-text-tertiary flex flex-wrap items-center gap-3">
+      {/* Compact details for narrow screens. The summary is repeated below the
+          main row until it fits at lg; sun times stay here until xl. */}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border-subtle px-4 pb-4 pt-2 text-xs text-text-tertiary xl:hidden">
+        <span className="flex flex-wrap items-center gap-x-3 gap-y-1 lg:hidden">
           <span className="flex items-center gap-1">
             <Icon icon={visual.icon} size={12} className={visual.iconClass} aria-hidden="true" />
             {codeInfo.description}
           </span>
-          {day.precipitationProbability >= 30 && (
-            <span className="flex items-center gap-1 text-brand-secondary">
-              <Icon icon="Droplets" size={11} aria-hidden="true" />
-              {day.precipitationProbability}%
-            </span>
-          )}
+          <span className={`flex items-center gap-1 ${day.precipitationProbability >= 30 ? 'text-brand-secondary' : ''}`}>
+            <Icon icon="Droplets" size={11} aria-hidden="true" />
+            {day.precipitationProbability}%
+          </span>
           <span className="flex items-center gap-1 text-text-tertiary">
             <Icon icon="Wind" size={11} aria-hidden="true" />
             {wind}
           </span>
-        </p>
+        </span>
+        {day.sunrise && (
+          <span className="flex items-center gap-1 text-text-tertiary" title="Sunrise">
+            <Icon icon="Sunrise" size={11} className="text-brand-accent" aria-hidden="true" />
+            {formatTime(day.sunrise, use24Hour, formatOpts)}
+          </span>
+        )}
+        {day.sunset && (
+          <span className="flex items-center gap-1 text-text-tertiary" title="Sunset">
+            <Icon icon="Sunset" size={11} className="text-brand-accent-hover" aria-hidden="true" />
+            {formatTime(day.sunset, use24Hour, formatOpts)}
+          </span>
+        )}
       </div>
     </article>
   )

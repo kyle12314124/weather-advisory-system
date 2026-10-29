@@ -107,8 +107,8 @@ export const AdvisoryPanel: FC<AdvisoryPanelProps> = ({
 
       <Card variant="elevated" padding="lg">
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <CardTitle size="lg">Weather Advisories</CardTitle>
+          <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
+            <CardTitle size="lg" className="min-w-0 break-words">Weather Advisories</CardTitle>
             {hasCriticalAdvisories && highestSeverity && (
               <Badge variant={severityConfig[highestSeverity].badgeVariant} size="lg" dot>
                 {highestSeverity === 'danger' ? 'Critical' : 'Caution'}
@@ -180,12 +180,12 @@ const AdvisoryItem: FC<AdvisoryItemProps> = ({ advisory, config }) => (
     role="alert"
     aria-live="polite"
   >
-    <div className="flex items-start gap-3">
-      <Badge variant={config.badgeVariant} size="sm" className="mt-0.5 shrink-0">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
+      <Badge variant={config.badgeVariant} size="sm" className="mt-0.5 max-w-full self-start break-words sm:shrink-0">
         {advisory.category}
       </Badge>
       <div className="min-w-0 flex-1">
-        <h5 className="font-semibold text-text-primary">{advisory.title}</h5>
+        <h5 className="break-words font-semibold text-text-primary">{advisory.title}</h5>
         <p className="mt-1.5 text-sm text-text-secondary">{advisory.explanation}</p>
         <p className="mt-2.5 text-sm text-text-primary">
           <span className={`inline-block rounded px-2 py-0.5 text-xs font-semibold ${config.text}`}>

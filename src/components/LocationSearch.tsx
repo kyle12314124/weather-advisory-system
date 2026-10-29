@@ -130,10 +130,10 @@ const Dropdown: FC<DropdownProps> = ({
                 <Icon icon="MapPin" size={16} aria-hidden="true" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-text-primary">
+                <p className="break-words text-sm font-medium text-text-primary">
                   {location.name}
                 </p>
-                <p className="truncate text-xs text-text-tertiary">
+                <p className="break-words text-xs text-text-tertiary">
                   {formatLocationName(location)}
                 </p>
               </div>
@@ -416,10 +416,10 @@ export const LocationSearch: FC<LocationSearchProps> = ({
               <Icon icon="CheckCircle" size={18} aria-hidden="true" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-text-primary">
+              <p className="break-words text-sm font-medium text-text-primary">
                 Selected: {selectedLocation.name}
               </p>
-              <p className="truncate text-xs text-text-tertiary">
+              <p className="break-words text-xs text-text-tertiary">
                 {formatLocationName(selectedLocation)}
               </p>
             </div>

@@ -979,6 +979,13 @@ input[type='search']::-webkit-search-decoration {
   transition: background var(--duration-fast) var(--ease-out);
 }
 .toggle:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+/* Extend the touch target to ~44px without changing the visual switch size. */
+.toggle::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: var(--radius-full);
+}
 .toggle::after {
   content: '';
   position: absolute;
@@ -1243,6 +1250,15 @@ input[type='search']::-webkit-search-decoration {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ============================================================
+ * MOBILE TOUCH TARGETS
+ * Keep compact desktop buttons comfortable to tap on phones.
+ * ============================================================ */
+@media (max-width: 639px) {
+  .btn-sm { min-height: 44px; }
+  .btn-icon-sm { min-width: 44px; min-height: 44px; }
 }
 
 /* ============================================================

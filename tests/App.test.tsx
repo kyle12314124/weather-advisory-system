@@ -234,6 +234,33 @@ describe('App smoke', () => {
     })
   })
 
+  it('opens the change-location dialog from the mobile search trigger', async () => {
+    await renderApp()
+
+    // The header search bar is hidden below sm in CSS, so the icon button is
+    // the only way to reach search on phones. It must have an accessible name.
+    const mobileSearch = screen.getByRole('button', { name: /^search location$/i })
+    fireEvent.click(mobileSearch)
+
+    const dialog = await screen.findByRole('dialog', { name: /change location/i })
+    expect(dialog).toBeTruthy()
+
+    fireEvent.click(screen.getByRole('button', { name: /close search/i }))
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: /change location/i })).toBeNull()
+    })
+  })
+
+  it('gives every tab an accessible name even when labels are hidden', async () => {
+    await renderApp()
+
+    for (const name of [/^forecast$/i, /^charts$/i, /^advisories$/i, /^favorites$/i, /^settings$/i]) {
+      const tab = screen.getByRole('tab', { name })
+      expect(tab.getAttribute('aria-label')).toBeTruthy()
+      expect(tab.getAttribute('title')).toBeTruthy()
+    }
+  })
+
   it('puts the location dialog above the dashboard with a real z-index utility', async () => {
     await renderApp()
 

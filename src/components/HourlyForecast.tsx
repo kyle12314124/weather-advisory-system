@@ -102,7 +102,7 @@ export const HourlyForecast: FC<HourlyForecastProps> = ({
               aria-controls={listId}
               aria-label="Scroll hourly forecast left"
               title="Previous hours"
-              className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border-default bg-surface-1 text-text-secondary shadow-sm transition-all duration-fast hover:border-border-strong hover:bg-surface-2 hover:text-text-primary active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 disabled:pointer-events-none disabled:opacity-35 disabled:shadow-none lg:h-9 lg:w-9"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border-default bg-surface-1 text-text-secondary shadow-sm transition-all duration-fast hover:border-border-strong hover:bg-surface-2 hover:text-text-primary active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 disabled:pointer-events-none disabled:opacity-35 disabled:shadow-none lg:h-9 lg:w-9"
             >
               <Icon icon="ChevronLeft" size={18} aria-hidden="true" />
             </button>
@@ -113,7 +113,7 @@ export const HourlyForecast: FC<HourlyForecastProps> = ({
               aria-controls={listId}
               aria-label="Scroll hourly forecast right"
               title="Next hours"
-              className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border-default bg-surface-1 text-text-secondary shadow-sm transition-all duration-fast hover:border-border-strong hover:bg-surface-2 hover:text-text-primary active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 disabled:pointer-events-none disabled:opacity-35 disabled:shadow-none lg:h-9 lg:w-9"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border-default bg-surface-1 text-text-secondary shadow-sm transition-all duration-fast hover:border-border-strong hover:bg-surface-2 hover:text-text-primary active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 disabled:pointer-events-none disabled:opacity-35 disabled:shadow-none lg:h-9 lg:w-9"
             >
               <Icon icon="ChevronRight" size={18} aria-hidden="true" />
             </button>

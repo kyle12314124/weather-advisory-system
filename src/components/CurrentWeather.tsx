@@ -35,6 +35,8 @@ interface CurrentWeatherProps {
   lastUpdated: Date | null
   use24Hour: boolean
   timezone: string
+  /** Opens the location search dialog. Shown as a mobile affordance. */
+  onChangeLocation?: () => void
 }
 
 interface WeatherDetailProps {
@@ -45,17 +47,18 @@ interface WeatherDetailProps {
 }
 
 const WeatherDetail: FC<WeatherDetailProps> = ({ icon, label, value, iconRotation }) => (
-  <div className="card-filled p-4 sm:p-5 transition-all duration-fast hover:bg-surface-3 hover:shadow-sm">
+  <div className="card-filled min-w-0 p-3 transition-all duration-fast hover:bg-surface-3 hover:shadow-sm sm:p-5">
     <div className="flex items-center gap-1.5 text-text-tertiary">
       <Icon
         icon={icon}
         size={14}
+        className="shrink-0"
         aria-hidden="true"
         style={iconRotation !== undefined ? { transform: `rotate(${iconRotation}deg)` } : undefined}
       />
-      <span className="text-xs font-semibold uppercase tracking-wider">{label}</span>
+      <span className="break-words text-xs font-semibold uppercase tracking-wider">{label}</span>
     </div>
-    <p className="mt-2 text-xl font-bold tabular-nums text-text-primary sm:text-2xl">{value}</p>
+    <p className="mt-2 break-words text-lg font-bold tabular-nums text-text-primary sm:text-2xl">{value}</p>
   </div>
 )
 
@@ -98,6 +101,7 @@ export const CurrentWeather: FC<CurrentWeatherProps> = ({
   lastUpdated,
   use24Hour,
   timezone,
+  onChangeLocation,
 }) => {
   if (!current) return null
 
@@ -136,19 +140,29 @@ export const CurrentWeather: FC<CurrentWeatherProps> = ({
   return (
     <section className="animate-fade-in delay-1" aria-label="Current weather conditions">
       {/* Location and update time */}
-      <div className="mb-5 flex items-center gap-3 sm:gap-4">
-        <div className="icon-container icon-container-lg icon-container-brand">
+      <div className="mb-5 flex items-start gap-3 sm:items-center sm:gap-4">
+        <div className="icon-container icon-container-lg icon-container-brand shrink-0">
           <Icon icon="MapPin" size={22} aria-hidden="true" />
         </div>
-        <div className="min-w-0">
-          <h2 className="text-2xl font-bold tracking-tight text-text-primary sm:text-3xl truncate">
+        <div className="min-w-0 flex-1">
+          <h2 className="break-words text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
             {locationName}
           </h2>
-          <p className="mt-1 text-sm text-text-tertiary sm:text-base flex items-center gap-2">
+          <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-text-tertiary sm:text-base">
             <span>{lastUpdated ? `Updated ${formatTime(lastUpdated, use24Hour, formatOpts)}` : 'Loading…'}</span>
             <span className="hidden sm:inline" aria-hidden="true">·</span>
             <span className="hidden capitalize sm:inline">{isDay ? 'Daytime' : 'Nighttime'}</span>
           </p>
+          {onChangeLocation && (
+            <button
+              type="button"
+              onClick={onChangeLocation}
+              className="mt-2 inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border-subtle bg-surface-2 px-3.5 py-1.5 text-xs font-semibold text-brand-primary transition-colors duration-fast hover:border-border-default hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 sm:hidden"
+            >
+              <Icon icon="MapPin" size={13} aria-hidden="true" />
+              Change location
+            </button>
+          )}
         </div>
       </div>
 
@@ -160,9 +174,9 @@ export const CurrentWeather: FC<CurrentWeatherProps> = ({
           aria-hidden="true"
         />
 
-        <div className="relative flex flex-col gap-6 p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-7">
+        <div className="relative flex flex-col gap-6 p-4 sm:p-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-7">
           {/* Condition and temperature - centered on mobile, left-aligned on desktop */}
-          <div className="flex flex-col items-center gap-4 text-center sm:items-start sm:text-left lg:w-1/2 md:flex-row md:items-center md:justify-between md:gap-6">
+          <div className="flex flex-col items-center gap-4 text-center sm:items-start sm:text-left md:flex-row md:items-center md:justify-between md:gap-6 lg:min-w-0 lg:flex-1">
             <div className="flex min-w-0 flex-col items-center gap-4 sm:items-start">
               <div className={`flex shrink-0 items-center justify-center rounded-2xl ${visual.tileClass} shadow-lg`} style={{ width: '100px', height: '100px' }}>
                 <Icon
@@ -187,13 +201,14 @@ export const CurrentWeather: FC<CurrentWeatherProps> = ({
               </div>
             </div>
 
-            {/* Anime Companion - responsive, near-native size (312×279), shows full artwork */}
-            <div className="hidden md:flex md:items-center md:justify-center lg:w-[280px] lg:flex-none">
+            {/* Anime Companion - stays in normal document flow at every size, so
+                it can never cover the temperature or condition text. */}
+            <div className="flex shrink-0 items-center justify-center">
               <div
                 className="relative shrink-0 rounded-2xl overflow-hidden shadow-xl"
                 style={{
-                  width: 'clamp(160px, 22vw, 280px)',
-                  height: `clamp(143px, 19.7vw, 250px)`,
+                  width: 'clamp(120px, 20vw, 280px)',
+                  aspectRatio: '312 / 279',
                 }}
                 aria-hidden="true"
               >
@@ -215,7 +230,7 @@ export const CurrentWeather: FC<CurrentWeatherProps> = ({
           </div>
 
           {/* Key statistics - responsive grid */}
-          <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 lg:max-w-md lg:grid-cols-2 lg:gap-4">
+          <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 lg:w-[42%] lg:max-w-md lg:shrink-0 lg:grid-cols-2 lg:gap-4">
             <WeatherDetail icon="Droplet" label="Humidity" value={humidity ?? '—'} />
             <WeatherDetail icon="Wind" label="Wind" value={windSpeed} />
             {current.winddirection !== undefined && (
